@@ -34,11 +34,16 @@ contract FoundingControl {
   }
 
   function check(uint256 _time, uint256 _userCount) public returns(bool success) {
-    require(msg.sender == owner);
+    require(msg.sender == startup || msg.sender == investor);
     require(_time > milestone[currentStage].time);
-    require(_userCount > milestone[currentStage].userCount);
+    // require(_userCount > milestone[currentStage].userCount);
 
-    startup.transfer(milestone[currentStage].amount);
+    if(_userCount > milestone[currentStage].userCount) {
+      startup.transfer(milestone[currentStage].amount);
+    } else {
+      selfdestruct(investor);
+    }
+
 
     if(currentStage < stageCount) currentStage++;
 
@@ -50,7 +55,7 @@ contract FoundingControl {
   }
 
   function destruct() public {
-    require(msg.sender == owner);
+    require(msg.sender == startup);
 
     selfdestruct(investor);
   }
