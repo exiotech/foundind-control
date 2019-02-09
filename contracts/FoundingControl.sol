@@ -23,8 +23,9 @@ contract FoundingControl {
     startup = _startup;
   }
 
-  function addStage(uint256 _time,uint256 _userCount, uint256 _amount) public returns(bool success) {
+  function addStage(uint256 _time,uint256 _userCount, uint256 _amount) public payable returns(bool success) {
     require(msg.sender == owner);
+    require(msg.value >= _amount);
 
     stageCount++;
     stage[stageCount] = Condition(_time, _userCount, _amount, stageCount);
