@@ -9,7 +9,7 @@ contract FoundingControl {
   }
 
   address public owner;
-  address public investr;
+  address payable public investor;
   address payable public startup;
   uint256 public stageCount;
   Condition[] public stage;
@@ -17,9 +17,9 @@ contract FoundingControl {
 
   uint256 internal currentStage;
 
-  constructor(address _investr, address payable _startup) public {
+  constructor(address payable _investor, address payable _startup) public {
     owner = msg.sender;
-    investr = _investr;
+    investor = _investor;
     startup = _startup;
   }
 
@@ -42,5 +42,15 @@ contract FoundingControl {
     if(currentStage < stageCount) currentStage++;
 
     return true;
+  }
+
+  function () external {
+    revert();
+  }
+
+  function destruct() public {
+    require(msg.sender == owner);
+
+    selfdestruct(investor);
   }
 }
