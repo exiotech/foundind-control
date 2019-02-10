@@ -4,13 +4,13 @@ module.exports = {
   networks: {
     development: {
       host: "127.0.0.1",
-      port: 8545,
-      network_id: "*" // Match any network id
-    }
+      port: 9545,
+      network_id: "*", // Match any network id
+    },
   },
 
   mocha: {
-    useColors: true
+    useColors: true,
   },
 
   compilers: {
@@ -20,11 +20,11 @@ module.exports = {
       settings: {          // See the solidity docs for advice about optimization and evmVersion
        optimizer: {
          enabled: false,
-         runs: 200
+         runs: 200,
        },
-       evmVersion: "byzantium"
-      }
-    }
+       evmVersion: "byzantium",
+     },
+    },
   },
 
   contracts_build_directory: path.join(__dirname, "app/src/contracts"),
