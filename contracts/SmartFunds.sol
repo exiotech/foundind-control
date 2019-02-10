@@ -28,7 +28,7 @@ contract SmartFunds {
   }
 
   function addStage(uint256 _time,uint256 _userCount, uint256 _amount) public payable returns(bool success) {
-    require(msg.sender == owner);
+    require(msg.sender == investor);
     require(msg.value >= _amount);
 
     stageCount++;
