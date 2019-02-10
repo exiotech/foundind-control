@@ -1,20 +1,14 @@
-import React, { Component } from "react";
-import { DrizzleProvider } from "drizzle-react";
-import { LoadingContainer } from "drizzle-react-components";
+import MyComponent from "./pages/Index";
+import { drizzleConnect } from "drizzle-react";
 
-import drizzleOptions from "./drizzleOptions";
-import MyContainer from "./MyContainer";
+const mapStateToProps = state => {
+  return {
+    accounts: state.accounts,
+    SmartFunds: state.contracts.SmartFunds,
+    drizzleStatus: state.drizzleStatus,
+  };
+};
 
-class App extends Component {
-  render() {
-    return (
-      <DrizzleProvider options={drizzleOptions}>
-        <LoadingContainer>
-          <MyContainer />
-        </LoadingContainer>
-      </DrizzleProvider>
-    );
-  }
-}
+const App = drizzleConnect(MyComponent, mapStateToProps);
 
 export default App;
