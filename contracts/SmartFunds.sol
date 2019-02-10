@@ -1,6 +1,10 @@
 pragma solidity ^0.5.2;
 
-contract FoundingControl {
+import "./Oracle.sol";
+
+contract SmartFunds {
+  Oracle oracle;
+
   struct Condition {
     uint256 time;
     uint256 userCount;
@@ -33,12 +37,12 @@ contract FoundingControl {
     return true;
   }
 
-  function check(uint256 _time, uint256 _userCount) public returns(bool success) {
+  function check(uint256 _time) public returns(bool success) {
     require(msg.sender == startup || msg.sender == investor);
     require(_time > milestone[currentStage].time);
     // require(_userCount > milestone[currentStage].userCount);
 
-    if(_userCount > milestone[currentStage].userCount) {
+    if(oracle.query(startup) > milestone[currentStage].userCount) {
       startup.transfer(milestone[currentStage].amount);
     } else {
       selfdestruct(investor);
